@@ -112,6 +112,21 @@
     }
     .nav-cta:hover { background: #2d3035 !important; transform: scale(1.03) !important; }
 
+    .lang-btn {
+      background: transparent;
+      border: 1.5px solid rgba(26,28,30,0.2);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .lang-btn:hover { border-color: var(--dark); color: var(--dark); background: rgba(26,28,30,0.04); }
+
     /* ── HERO ───────────────────────────────── */
     #hero {
       padding: 140px 24px 80px;
@@ -1051,10 +1066,11 @@
     <span class="nav-name">ClawCorp</span>
   </a>
   <ul class="nav-links">
-    <li><a href="#features">产品功能</a></li>
-    <li><a href="#howitworks">运转方式</a></li>
+    <li><a href="#features" data-i18n="nav_features">产品功能</a></li>
+    <li><a href="#howitworks" data-i18n="nav_how">运转方式</a></li>
     <li><a href="#store">Claw Store</a></li>
-    <li><a href="#waitlist" class="nav-cta">加入候补名单</a></li>
+    <li><a href="#waitlist" class="nav-cta" data-i18n="nav_cta">加入候补名单</a></li>
+    <li><button class="lang-btn" onclick="toggleLang()" data-i18n="lang_toggle">EN</button></li>
   </ul>
 </nav>
 
@@ -1062,36 +1078,32 @@
 <section id="hero">
   <div class="hero-badge">
     <span class="hero-badge-dot"></span>
-    全AI员工的公司操作系统
+    <span data-i18n="hero_badge">全AI员工的公司操作系统</span>
   </div>
 
-  <h1 class="hero-title">
+  <h1 class="hero-title" data-i18n-html="hero_title">
     雇一支 <span class="accent-yellow">AI 军队</span><br>
     运转一家<span class="accent-underline">完整公司</span>
   </h1>
 
-  <p class="hero-sub">
+  <p class="hero-sub" data-i18n-html="hero_sub">
     从产品调研、开发部署到社媒营销，ClawCorp 让数字员工完成一切闭环——你只需输入一句话，<span class="hero-sub-highlight">剩下的交给我们</span>。
   </p>
 
   <div class="hero-actions">
-    <a href="#waitlist" class="btn-dark">
-      加入候补名单 →
-    </a>
-    <a href="#features" class="btn-outline">
-      了解产品功能
-    </a>
+    <a href="#waitlist" class="btn-dark" data-i18n="btn_waitlist">加入候补名单 →</a>
+    <a href="#features" class="btn-outline" data-i18n="btn_features">了解产品功能</a>
   </div>
 
-  <!-- Hero Screenshot: 指令中心 -->
+  <!-- Hero Screenshot -->
   <div class="hero-screenshot">
     <div class="float-badge fb-1">
       <div class="fb-icon green">✓</div>
-      <span>PRD 已生成 · 10:30</span>
+      <span data-i18n="fb1">PRD 已生成 · 10:30</span>
     </div>
     <div class="float-badge fb-2">
       <div class="fb-icon orange">⚡</div>
-      <span>营销内容自动发布中</span>
+      <span data-i18n="fb2">营销内容自动发布中</span>
     </div>
     <div class="hero-screenshot-inner">
       <img src="assets/62bc4f1fdedcd64d45d7983a071b4f8f.png" alt="ClawCorp 人才市集界面" />
@@ -1105,10 +1117,10 @@
 
     <div class="kodak-left">
       <div class="kodak-year">1888 · George Eastman · Kodak</div>
-      <blockquote class="kodak-quote">
+      <blockquote class="kodak-quote" data-i18n-html="kodak_quote">
         "你只需按下按钮，<br>剩下的交给我们。"
       </blockquote>
-      <p class="kodak-context">柯达用这句话，让每个人都能拍照——<br>把复杂的暗房工艺，变成一个动作。</p>
+      <p class="kodak-context" data-i18n-html="kodak_context_left">柯达用这句话，让每个人都能拍照——<br>把复杂的暗房工艺，变成一个动作。</p>
     </div>
 
     <div class="kodak-divider">
@@ -1117,10 +1129,10 @@
 
     <div class="kodak-right">
       <div class="kodak-year" style="color: var(--accent);">2026 · ClawCorp</div>
-      <p class="clawcorp-response">
+      <p class="clawcorp-response" data-i18n-html="clawcorp_response">
         "你只需输入一句话，<br>剩下的交给<span class="resp-highlight">AI 军队</span>。"
       </p>
-      <p class="kodak-context" style="color:rgba(255,255,255,0.45)">ClawCorp 用同样的逻辑，颠覆公司运营——<br>把创业的一切复杂，变成一条指令。</p>
+      <p class="kodak-context" style="color:rgba(255,255,255,0.45)" data-i18n-html="kodak_context_right">ClawCorp 用同样的逻辑，颠覆公司运营——<br>把创业的一切复杂，变成一条指令。</p>
     </div>
 
   </div>
@@ -1129,125 +1141,115 @@
 <!-- ── STATS ── -->
 <div class="stats-row">
   <div class="stat-card reveal">
-    <div class="stat-num yellow">20+</div>
-    <div class="stat-label">社交账号矩阵<br>自动化运营</div>
+    <div class="stat-num yellow" data-i18n="stat_num1">20+</div>
+    <div class="stat-label" data-i18n-html="stat1">社交账号矩阵<br>自动化运营</div>
   </div>
   <div class="stat-card reveal" style="transition-delay:0.1s">
     <div class="stat-num dark">24/7</div>
-    <div class="stat-label">数字员工不间断<br>在岗执行</div>
+    <div class="stat-label" data-i18n-html="stat2">数字员工不间断<br>在岗执行</div>
   </div>
   <div class="stat-card reveal" style="transition-delay:0.2s">
-    <div class="stat-num orange">1句话</div>
-    <div class="stat-label">驱动从需求到上线<br>的全流程</div>
+    <div class="stat-num orange" data-i18n="stat_num3">1句话</div>
+    <div class="stat-label" data-i18n-html="stat3">驱动从需求到上线<br>的全流程</div>
   </div>
   <div class="stat-card reveal" style="transition-delay:0.3s">
     <div class="stat-num dark">∞</div>
-    <div class="stat-label">自进化循环<br>ROI 持续优化</div>
+    <div class="stat-label" data-i18n-html="stat4">自进化循环<br>ROI 持续优化</div>
   </div>
 </div>
 
 <!-- ── FEATURES ── -->
 <div id="features" class="section-wrap">
-  <span class="section-label reveal">核心功能</span>
-  <h2 class="section-title reveal">每个环节，<br>都有专属 AI 员工。</h2>
+  <span class="section-label reveal" data-i18n="feat_label">核心功能</span>
+  <h2 class="section-title reveal" data-i18n-html="feat_title">每个环节，<br>都有专属 AI 员工。</h2>
 
-  <!-- Feature 1: 指令中心 -->
+  <!-- Feature 1 -->
   <div class="feature-block reveal" style="margin-top:64px">
     <div class="feature-text">
-      <span class="feature-tag">🎯 指令中心</span>
-      <h3 class="feature-title">一句话，<br>启动全流程。</h3>
-      <p class="feature-desc">
-        在指令中心输入你的目标，ClawCorp 自动拆解任务并分配给各职能 AI 员工。任务节点时间线实时透明，中间产物（文档、代码块）全程可查。
-      </p>
+      <span class="feature-tag" data-i18n="f1_tag">🎯 指令中心</span>
+      <h3 class="feature-title" data-i18n-html="f1_title">一句话，<br>启动全流程。</h3>
+      <p class="feature-desc" data-i18n="f1_desc">在指令中心输入你的目标，ClawCorp 自动拆解任务并分配给各职能 AI 员工。任务节点时间线实时透明，中间产物（文档、代码块）全程可查。</p>
       <ul class="feature-bullets">
-        <li><span class="bullet-dot"></span>一句话驱动完整任务链</li>
-        <li><span class="bullet-dot"></span>任务 Stepper 节点透明追踪</li>
-        <li><span class="bullet-dot"></span>中间产物：PRD、代码、报告实时输出</li>
+        <li><span class="bullet-dot"></span><span data-i18n="f1_b1">一句话驱动完整任务链</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f1_b2">任务 Stepper 节点透明追踪</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f1_b3">中间产物：PRD、代码、报告实时输出</span></li>
       </ul>
     </div>
     <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/62c89e769475d1205431a8885a769941.jpg" alt="指令中心" />
-      <span class="zoom-hint">🔍 点击查看大图</span>
+      <span class="zoom-hint" data-i18n="f1_zoom">🔍 点击查看大图</span>
     </div>
   </div>
 
-  <!-- Feature 2: 人才市集 -->
+  <!-- Feature 2 -->
   <div class="feature-block reverse reveal">
     <div class="feature-text">
-      <span class="feature-tag">🏪 Claw Store</span>
-      <h3 class="feature-title">发现并雇佣<br>顶尖数字员工。</h3>
-      <p class="feature-desc">
-        人才市集汇聚全球最优秀的 AI 员工，按类别筛选、一键雇佣即加入你的团队。每位员工背后是精调的 System Prompt + 行业 RAG + 工具链。
-      </p>
+      <span class="feature-tag" data-i18n="f2_tag">🏪 Claw Store</span>
+      <h3 class="feature-title" data-i18n-html="f2_title">发现并雇佣<br>顶尖数字员工。</h3>
+      <p class="feature-desc" data-i18n="f2_desc">人才市集汇聚全球最优秀的 AI 员工，按类别筛选、一键雇佣即加入你的团队。每位员工背后是精调的 System Prompt + 行业 RAG + 工具链。</p>
       <ul class="feature-bullets">
-        <li><span class="bullet-dot"></span>开发、运营、数据、合规多类专才</li>
-        <li><span class="bullet-dot"></span>订阅或买断，灵活定价</li>
-        <li><span class="bullet-dot"></span>也可上架自建员工、赚取收益</li>
+        <li><span class="bullet-dot"></span><span data-i18n="f2_b1">开发、运营、数据、合规多类专才</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f2_b2">订阅或买断，灵活定价</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f2_b3">也可上架自建员工、赚取收益</span></li>
       </ul>
     </div>
     <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/62bc4f1fdedcd64d45d7983a071b4f8f.png" alt="人才市集" />
-      <span class="zoom-hint">🔍 点击查看大图</span>
+      <span class="zoom-hint" data-i18n="f2_zoom">🔍 点击查看大图</span>
     </div>
   </div>
 
-  <!-- Feature 3: 人力资产 -->
+  <!-- Feature 3 -->
   <div class="feature-block reveal">
     <div class="feature-text">
-      <span class="feature-tag">👥 人力资产</span>
-      <h3 class="feature-title">管理你的<br>数字团队。</h3>
-      <p class="feature-desc">
-        花名册一览团队状态，每位员工有完整的绩效看板——消耗/产出比实时可见。表现差一键辞退，随时从 Store 补充新员工。
-      </p>
+      <span class="feature-tag" data-i18n="f3_tag">👥 人力资产</span>
+      <h3 class="feature-title" data-i18n-html="f3_title">管理你的<br>数字团队。</h3>
+      <p class="feature-desc" data-i18n="f3_desc">花名册一览团队状态，每位员工有完整的绩效看板——消耗/产出比实时可见。表现差一键辞退，随时从 Store 补充新员工。</p>
       <ul class="feature-bullets">
-        <li><span class="bullet-dot"></span>生命周期：入职 → 培训 → 服役 → 淘汰</li>
-        <li><span class="bullet-dot"></span>Token 消耗 & ROI 实时监控</li>
-        <li><span class="bullet-dot"></span>自定义 Prompt、权限与知识库</li>
+        <li><span class="bullet-dot"></span><span data-i18n="f3_b1">生命周期：入职 → 培训 → 服役 → 淘汰</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f3_b2">Token 消耗 & ROI 实时监控</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f3_b3">自定义 Prompt、权限与知识库</span></li>
       </ul>
     </div>
     <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/8b1a0ed6d3928b2f8abbc391488ce5df.png" alt="人力资产" />
-      <span class="zoom-hint">🔍 点击查看大图</span>
+      <span class="zoom-hint" data-i18n="f3_zoom">🔍 点击查看大图</span>
     </div>
   </div>
 
-  <!-- Feature 4: 指挥中枢 -->
+  <!-- Feature 4 -->
   <div class="feature-block reverse reveal">
     <div class="feature-text">
-      <span class="feature-tag">📊 指挥中枢</span>
-      <h3 class="feature-title">实时掌控<br>全局运转。</h3>
-      <p class="feature-desc">
-        任务看板展示执行中任务数、员工负荷甘特图、今日完成闭环数。点击任意员工可穿透查看当前任务耗时、日志与历史记录。
-      </p>
+      <span class="feature-tag" data-i18n="f4_tag">📊 指挥中枢</span>
+      <h3 class="feature-title" data-i18n-html="f4_title">实时掌控<br>全局运转。</h3>
+      <p class="feature-desc" data-i18n="f4_desc">任务看板展示执行中任务数、员工负荷甘特图、今日完成闭环数。点击任意员工可穿透查看当前任务耗时、日志与历史记录。</p>
       <ul class="feature-bullets">
-        <li><span class="bullet-dot"></span>多员工协同甘特图</li>
-        <li><span class="bullet-dot"></span>可交互实时日志</li>
-        <li><span class="bullet-dot"></span>任务状态一键穿透</li>
+        <li><span class="bullet-dot"></span><span data-i18n="f4_b1">多员工协同甘特图</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f4_b2">可交互实时日志</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f4_b3">任务状态一键穿透</span></li>
       </ul>
     </div>
     <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/cb7a669def04a61efea4ae1e7aa757d7.png" alt="指挥中枢" />
-      <span class="zoom-hint">🔍 点击查看大图</span>
+      <span class="zoom-hint" data-i18n="f4_zoom">🔍 点击查看大图</span>
     </div>
   </div>
 
-  <!-- Feature 5: 生态网关 -->
+  <!-- Feature 5 -->
   <div class="feature-block reveal">
     <div class="feature-text">
-      <span class="feature-tag">🔗 生态网关</span>
-      <h3 class="feature-title">打通你的<br>工作流生态。</h3>
-      <p class="feature-desc">
-        OAuth 一键绑定企业微信、飞书、钉钉。指定任意频道由某位数字员工负责监听、分发与自动回复，实现全渠道覆盖。
-      </p>
+      <span class="feature-tag" data-i18n="f5_tag">🔗 生态网关</span>
+      <h3 class="feature-title" data-i18n-html="f5_title">打通你的<br>工作流生态。</h3>
+      <p class="feature-desc" data-i18n="f5_desc">OAuth 一键绑定企业微信、飞书、钉钉。指定任意频道由某位数字员工负责监听、分发与自动回复，实现全渠道覆盖。</p>
       <ul class="feature-bullets">
-        <li><span class="bullet-dot"></span>企业微信 · 飞书 · 钉钉 · Slack</li>
-        <li><span class="bullet-dot"></span>消息路由按员工职能分配</li>
-        <li><span class="bullet-dot"></span>自动回复 + 任务触发</li>
+        <li><span class="bullet-dot"></span><span data-i18n="f5_b1">企业微信 · 飞书 · 钉钉 · Slack</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f5_b2">消息路由按员工职能分配</span></li>
+        <li><span class="bullet-dot"></span><span data-i18n="f5_b3">自动回复 + 任务触发</span></li>
       </ul>
     </div>
     <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/1dc76dd20614981dca6c46cfbef09b71.png" alt="生态网关" />
-      <span class="zoom-hint">🔍 点击查看大图</span>
+      <span class="zoom-hint" data-i18n="f5_zoom">🔍 点击查看大图</span>
     </div>
   </div>
 </div>
@@ -1255,24 +1257,24 @@
 <!-- ── HOW IT WORKS ── -->
 <section id="howitworks">
   <div class="section-wrap">
-    <span class="section-label reveal">运转方式</span>
-    <h2 class="section-title reveal">三步，启动你的<br>AI 原生公司。</h2>
+    <span class="section-label reveal" data-i18n="how_label">运转方式</span>
+    <h2 class="section-title reveal" data-i18n-html="how_title">三步，启动你的<br>AI 原生公司。</h2>
 
     <div class="steps-grid">
       <div class="step-card reveal">
         <div class="step-num-badge">1</div>
-        <div class="step-title">输入一句话</div>
-        <div class="step-desc">在指令中心描述你的目标，例如"帮我做一款针对大学生的小游戏并上线推广"，系统立即拆解并分派任务。</div>
+        <div class="step-title" data-i18n="s1_title">输入一句话</div>
+        <div class="step-desc" data-i18n="s1_desc">在指令中心描述你的目标，例如"帮我做一款针对大学生的小游戏并上线推广"，系统立即拆解并分派任务。</div>
       </div>
       <div class="step-card reveal" style="transition-delay:0.15s">
         <div class="step-num-badge">2</div>
-        <div class="step-title">AI 员工自动执行</div>
-        <div class="step-desc">AI PM 调研、AI Dev 开发部署、AI MKT 发布内容，全程任务节点透明可追踪，中间产物实时可查。</div>
+        <div class="step-title" data-i18n="s2_title">AI 员工自动执行</div>
+        <div class="step-desc" data-i18n="s2_desc">AI PM 调研、AI Dev 开发部署、AI MKT 发布内容，全程任务节点透明可追踪，中间产物实时可查。</div>
       </div>
       <div class="step-card reveal" style="transition-delay:0.3s">
         <div class="step-num-badge">3</div>
-        <div class="step-title">闭环自进化</div>
-        <div class="step-desc">数据反馈驱动下一轮迭代——高效策略自动放大，低效路径自动淘汰。你的公司在每次循环中变得更强。</div>
+        <div class="step-title" data-i18n="s3_title">闭环自进化</div>
+        <div class="step-desc" data-i18n="s3_desc">数据反馈驱动下一轮迭代——高效策略自动放大，低效路径自动淘汰。你的公司在每次循环中变得更强。</div>
       </div>
     </div>
   </div>
@@ -1281,27 +1283,25 @@
 <!-- ── STORE PREVIEW ── -->
 <div id="store" class="section-wrap">
   <span class="section-label reveal">Claw Store</span>
-  <h2 class="section-title reveal">即开即用的<br>数字员工市集。</h2>
-  <p class="section-desc reveal">开箱即用，也可自建上架——ClawCorp 正在打造全球最大的 AI 员工生态。</p>
+  <h2 class="section-title reveal" data-i18n-html="store_title">即开即用的<br>数字员工市集。</h2>
+  <p class="section-desc reveal" data-i18n="store_desc">开箱即用，也可自建上架——ClawCorp 正在打造全球最大的 AI 员工生态。</p>
 
   <div class="agents-grid">
     <div class="agent-card reveal">
       <div class="agent-card-deco"></div>
-      <div class="agent-avatar">
-        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=growth&backgroundColor=FFD233" alt="产品增长黑客" />
-      </div>
+      <div class="agent-avatar"><img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=growth&backgroundColor=FFD233" alt="" /></div>
       <div class="agent-rating">⭐ 4.9</div>
-      <div class="agent-name">产品增长黑客</div>
+      <div class="agent-name" data-i18n="a1_name">产品增长黑客</div>
       <div class="agent-tags">
-        <span class="agent-tag">市场调研</span>
-        <span class="agent-tag">数据分析</span>
-        <span class="agent-tag">增长策略</span>
+        <span class="agent-tag" data-i18n="a1_t1">市场调研</span>
+        <span class="agent-tag" data-i18n="a1_t2">数据分析</span>
+        <span class="agent-tag" data-i18n="a1_t3">增长策略</span>
       </div>
-      <div class="agent-desc-text">擅长通过数据驱动发现增长机会，制定并执行全链路增长实验，输出标准化 JSON 产物。</div>
+      <div class="agent-desc-text" data-i18n="a1_desc">擅长通过数据驱动发现增长机会，制定并执行全链路增长实验，输出标准化 JSON 产物。</div>
       <div class="agent-footer">
         <div>
-          <div class="agent-price-label">月度订阅</div>
-          <div class="agent-price-val">¥299/月</div>
+          <div class="agent-price-label" data-i18n="price_label">月度订阅</div>
+          <div class="agent-price-val">¥299/mo</div>
         </div>
         <a href="#waitlist" class="agent-hire-btn">＋</a>
       </div>
@@ -1309,21 +1309,19 @@
 
     <div class="agent-card reveal" style="transition-delay:0.1s">
       <div class="agent-card-deco" style="background:var(--orange)"></div>
-      <div class="agent-avatar">
-        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=dev&backgroundColor=FF6B4A" alt="全栈开发虾" />
-      </div>
+      <div class="agent-avatar"><img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=dev&backgroundColor=FF6B4A" alt="" /></div>
       <div class="agent-rating">⭐ 4.8</div>
-      <div class="agent-name">全栈开发虾</div>
+      <div class="agent-name" data-i18n="a2_name">全栈开发虾</div>
       <div class="agent-tags">
-        <span class="agent-tag">代码生成</span>
-        <span class="agent-tag">系统架构</span>
-        <span class="agent-tag">自动部署</span>
+        <span class="agent-tag" data-i18n="a2_t1">代码生成</span>
+        <span class="agent-tag" data-i18n="a2_t2">系统架构</span>
+        <span class="agent-tag" data-i18n="a2_t3">自动部署</span>
       </div>
-      <div class="agent-desc-text">精通多种编程语言，独立完成需求分析到云端部署全流程，高流量自动扩容。</div>
+      <div class="agent-desc-text" data-i18n="a2_desc">精通多种编程语言，独立完成需求分析到云端部署全流程，高流量自动扩容。</div>
       <div class="agent-footer">
         <div>
-          <div class="agent-price-label">月度订阅</div>
-          <div class="agent-price-val">¥499/月</div>
+          <div class="agent-price-label" data-i18n="price_label">月度订阅</div>
+          <div class="agent-price-val">¥499/mo</div>
         </div>
         <a href="#waitlist" class="agent-hire-btn">＋</a>
       </div>
@@ -1331,21 +1329,19 @@
 
     <div class="agent-card reveal" style="transition-delay:0.2s">
       <div class="agent-card-deco" style="background:#30D158"></div>
-      <div class="agent-avatar">
-        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=mkt&backgroundColor=33D2FF" alt="Hype MKT" />
-      </div>
+      <div class="agent-avatar"><img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=mkt&backgroundColor=33D2FF" alt="" /></div>
       <div class="agent-rating">⭐ 4.9</div>
-      <div class="agent-name">Hype MKT</div>
+      <div class="agent-name" data-i18n="a3_name">Hype MKT</div>
       <div class="agent-tags">
-        <span class="agent-tag">多平台发帖</span>
-        <span class="agent-tag">A/B 叙事</span>
-        <span class="agent-tag">自进化</span>
+        <span class="agent-tag" data-i18n="a3_t1">多平台发帖</span>
+        <span class="agent-tag" data-i18n="a3_t2">A/B 叙事</span>
+        <span class="agent-tag" data-i18n="a3_t3">自进化</span>
       </div>
-      <div class="agent-desc-text">四路叙事并行测试，按小时采集转化数据，自动淘汰低效方向，裂变爆款内容。</div>
+      <div class="agent-desc-text" data-i18n="a3_desc">四路叙事并行测试，按小时采集转化数据，自动淘汰低效方向，裂变爆款内容。</div>
       <div class="agent-footer">
         <div>
-          <div class="agent-price-label">月度订阅</div>
-          <div class="agent-price-val">¥399/月</div>
+          <div class="agent-price-label" data-i18n="price_label">月度订阅</div>
+          <div class="agent-price-val">¥399/mo</div>
         </div>
         <a href="#waitlist" class="agent-hire-btn">＋</a>
       </div>
@@ -1365,20 +1361,14 @@
     <div class="waitlist-card reveal">
       <div class="wl-deco-1"></div>
       <div class="wl-deco-2"></div>
-      <div class="wl-badge">🚀 限量内测开放中</div>
-      <h2 class="wl-title">抢先体验<br><span>ClawCorp</span></h2>
-      <p class="wl-sub">首批用户将获得专属折扣与优先配置支持。留下邮箱，内测开放第一时间通知你。</p>
+      <div class="wl-badge" data-i18n="wl_badge">🚀 限量内测开放中</div>
+      <h2 class="wl-title" data-i18n-html="wl_title">抢先体验<br><span>ClawCorp</span></h2>
+      <p class="wl-sub" data-i18n="wl_sub">首批用户将获得专属折扣与优先配置支持。留下邮箱，内测开放第一时间通知你。</p>
 
       <form id="waitlistForm" onsubmit="handleSubmit(event)">
         <div class="wl-form">
-          <input
-            class="wl-input"
-            type="email"
-            id="emailInput"
-            placeholder="你的邮箱地址"
-            required
-          />
-          <button class="wl-btn" type="submit" id="wlBtn">加入候补</button>
+          <input class="wl-input" type="email" id="emailInput" data-i18n-placeholder="wl_placeholder" placeholder="你的邮箱地址" required />
+          <button class="wl-btn" type="submit" id="wlBtn" data-i18n="wl_btn">加入候补</button>
         </div>
       </form>
 
@@ -1387,10 +1377,10 @@
           <circle cx="11" cy="11" r="11" fill="#FFD233"/>
           <path d="M7 11l3 3 5-5" stroke="#1A1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        已加入候补名单！我们会尽快联系你。
+        <span data-i18n="wl_success">已加入候补名单！我们会尽快联系你。</span>
       </div>
 
-      <p class="wl-note">不发垃圾邮件，随时可退订。</p>
+      <p class="wl-note" data-i18n="wl_note">不发垃圾邮件，随时可退订。</p>
     </div>
   </div>
 </section>
@@ -1402,15 +1392,151 @@
     <span class="footer-name">ClawCorp</span>
   </div>
   <ul class="footer-links">
-    <li><a href="#features">产品功能</a></li>
-    <li><a href="#howitworks">运转方式</a></li>
+    <li><a href="#features" data-i18n="footer_feat">产品功能</a></li>
+    <li><a href="#howitworks" data-i18n="footer_how">运转方式</a></li>
     <li><a href="#store">Claw Store</a></li>
-    <li><a href="#waitlist">加入候补</a></li>
+    <li><a href="#waitlist" data-i18n="footer_waitlist">加入候补</a></li>
   </ul>
-  <span class="footer-copy">© 2026 ClawCorp. 全AI员工的公司操作系统。</span>
+  <span class="footer-copy" data-i18n="footer_copy">© 2026 ClawCorp. 全AI员工的公司操作系统。</span>
 </footer>
 
 <script>
+  // ── i18n ───────────────────────────────────────────────
+  const T = {
+    zh: {
+      nav_features:'产品功能', nav_how:'运转方式', nav_cta:'加入候补名单', lang_toggle:'EN',
+      hero_badge:'全AI员工的公司操作系统',
+      hero_title:'雇一支 <span class="accent-yellow">AI 军队</span><br>运转一家<span class="accent-underline">完整公司</span>',
+      hero_sub:'从产品调研、开发部署到社媒营销，ClawCorp 让数字员工完成一切闭环——你只需输入一句话，<span class="hero-sub-highlight">剩下的交给我们</span>。',
+      btn_waitlist:'加入候补名单 →', btn_features:'了解产品功能',
+      fb1:'PRD 已生成 · 10:30', fb2:'营销内容自动发布中',
+      kodak_quote:'"你只需按下按钮，<br>剩下的交给我们。"',
+      kodak_context_left:'柯达用这句话，让每个人都能拍照——<br>把复杂的暗房工艺，变成一个动作。',
+      clawcorp_response:'"你只需输入一句话，<br>剩下的交给<span class="resp-highlight">AI 军队</span>。"',
+      kodak_context_right:'ClawCorp 用同样的逻辑，颠覆公司运营——<br>把创业的一切复杂，变成一条指令。',
+      stat_num1:'20+', stat1:'社交账号矩阵<br>自动化运营',
+      stat2:'数字员工不间断<br>在岗执行',
+      stat_num3:'1句话', stat3:'驱动从需求到上线<br>的全流程',
+      stat4:'自进化循环<br>ROI 持续优化',
+      feat_label:'核心功能', feat_title:'每个环节，<br>都有专属 AI 员工。',
+      f1_tag:'🎯 指令中心', f1_title:'一句话，<br>启动全流程。',
+      f1_desc:'在指令中心输入你的目标，ClawCorp 自动拆解任务并分配给各职能 AI 员工。任务节点时间线实时透明，中间产物（文档、代码块）全程可查。',
+      f1_b1:'一句话驱动完整任务链', f1_b2:'任务 Stepper 节点透明追踪', f1_b3:'中间产物：PRD、代码、报告实时输出', f1_zoom:'🔍 点击查看大图',
+      f2_tag:'🏪 Claw Store', f2_title:'发现并雇佣<br>顶尖数字员工。',
+      f2_desc:'人才市集汇聚全球最优秀的 AI 员工，按类别筛选、一键雇佣即加入你的团队。每位员工背后是精调的 System Prompt + 行业 RAG + 工具链。',
+      f2_b1:'开发、运营、数据、合规多类专才', f2_b2:'订阅或买断，灵活定价', f2_b3:'也可上架自建员工、赚取收益', f2_zoom:'🔍 点击查看大图',
+      f3_tag:'👥 人力资产', f3_title:'管理你的<br>数字团队。',
+      f3_desc:'花名册一览团队状态，每位员工有完整的绩效看板——消耗/产出比实时可见。表现差一键辞退，随时从 Store 补充新员工。',
+      f3_b1:'生命周期：入职 → 培训 → 服役 → 淘汰', f3_b2:'Token 消耗 & ROI 实时监控', f3_b3:'自定义 Prompt、权限与知识库', f3_zoom:'🔍 点击查看大图',
+      f4_tag:'📊 指挥中枢', f4_title:'实时掌控<br>全局运转。',
+      f4_desc:'任务看板展示执行中任务数、员工负荷甘特图、今日完成闭环数。点击任意员工可穿透查看当前任务耗时、日志与历史记录。',
+      f4_b1:'多员工协同甘特图', f4_b2:'可交互实时日志', f4_b3:'任务状态一键穿透', f4_zoom:'🔍 点击查看大图',
+      f5_tag:'🔗 生态网关', f5_title:'打通你的<br>工作流生态。',
+      f5_desc:'OAuth 一键绑定企业微信、飞书、钉钉。指定任意频道由某位数字员工负责监听、分发与自动回复，实现全渠道覆盖。',
+      f5_b1:'企业微信 · 飞书 · 钉钉 · Slack', f5_b2:'消息路由按员工职能分配', f5_b3:'自动回复 + 任务触发', f5_zoom:'🔍 点击查看大图',
+      how_label:'运转方式', how_title:'三步，启动你的<br>AI 原生公司。',
+      s1_title:'输入一句话', s1_desc:'在指令中心描述你的目标，例如"帮我做一款针对大学生的小游戏并上线推广"，系统立即拆解并分派任务。',
+      s2_title:'AI 员工自动执行', s2_desc:'AI PM 调研、AI Dev 开发部署、AI MKT 发布内容，全程任务节点透明可追踪，中间产物实时可查。',
+      s3_title:'闭环自进化', s3_desc:'数据反馈驱动下一轮迭代——高效策略自动放大，低效路径自动淘汰。你的公司在每次循环中变得更强。',
+      store_title:'即开即用的<br>数字员工市集。', store_desc:'开箱即用，也可自建上架——ClawCorp 正在打造全球最大的 AI 员工生态。',
+      a1_name:'产品增长黑客', a1_t1:'市场调研', a1_t2:'数据分析', a1_t3:'增长策略',
+      a1_desc:'擅长通过数据驱动发现增长机会，制定并执行全链路增长实验，输出标准化 JSON 产物。',
+      a2_name:'全栈开发虾', a2_t1:'代码生成', a2_t2:'系统架构', a2_t3:'自动部署',
+      a2_desc:'精通多种编程语言，独立完成需求分析到云端部署全流程，高流量自动扩容。',
+      a3_name:'Hype MKT', a3_t1:'多平台发帖', a3_t2:'A/B 叙事', a3_t3:'自进化',
+      a3_desc:'四路叙事并行测试，按小时采集转化数据，自动淘汰低效方向，裂变爆款内容。',
+      price_label:'月度订阅',
+      wl_badge:'🚀 限量内测开放中', wl_title:'抢先体验<br><span>ClawCorp</span>',
+      wl_sub:'首批用户将获得专属折扣与优先配置支持。留下邮箱，内测开放第一时间通知你。',
+      wl_placeholder:'你的邮箱地址', wl_btn:'加入候补', wl_submitting:'提交中…',
+      wl_success:'已加入候补名单！我们会尽快联系你。', wl_note:'不发垃圾邮件，随时可退订。',
+      wl_error_general:'提交失败，请重试', wl_error_network:'网络错误，请重试',
+      footer_feat:'产品功能', footer_how:'运转方式', footer_waitlist:'加入候补',
+      footer_copy:'© 2026 ClawCorp. 全AI员工的公司操作系统。',
+    },
+    en: {
+      nav_features:'Features', nav_how:'How It Works', nav_cta:'Join Waitlist', lang_toggle:'中文',
+      hero_badge:'The OS for an All-AI Company',
+      hero_title:'Hire an <span class="accent-yellow">AI Army</span>.<br>Run a <span class="accent-underline">Real Company</span>.',
+      hero_sub:'From product research and deployment to social marketing, ClawCorp lets digital employees close every loop — just type one sentence, <span class="hero-sub-highlight">we\'ll handle the rest</span>.',
+      btn_waitlist:'Join Waitlist →', btn_features:'Explore Features',
+      fb1:'PRD generated · 10:30', fb2:'Marketing content publishing…',
+      kodak_quote:'"You press the button,<br>we do the rest."',
+      kodak_context_left:'Kodak used these words to put a camera in everyone\'s hands —<br>turning complex darkroom chemistry into a single action.',
+      clawcorp_response:'"You type one sentence,<br>the <span class="resp-highlight">AI Army</span> does the rest."',
+      kodak_context_right:'ClawCorp applies the same logic to running a company —<br>turning everything complex about startups into a single command.',
+      stat_num1:'20+', stat1:'Social accounts<br>on autopilot',
+      stat2:'Digital employees<br>on duty',
+      stat_num3:'1 line', stat3:'Drives full cycle<br>from idea to launch',
+      stat4:'Self-evolving loops,<br>ROI keeps climbing',
+      feat_label:'Core Features', feat_title:'Every role.<br>Covered by AI.',
+      f1_tag:'🎯 Command Center', f1_title:'One sentence.<br>Full pipeline.',
+      f1_desc:'Type your goal in the Command Center. ClawCorp instantly breaks it into tasks and assigns them to the right AI employees. Every node is transparent — docs, code, and reports appear in real time.',
+      f1_b1:'One sentence drives the entire task chain', f1_b2:'Transparent task stepper with node tracking', f1_b3:'Live output: PRDs, code, reports', f1_zoom:'🔍 Click to expand',
+      f2_tag:'🏪 Claw Store', f2_title:'Discover & hire<br>top digital talent.',
+      f2_desc:'The marketplace gathers the world\'s best AI employees. Filter by specialty and hire with one click — each employee is a tuned System Prompt + industry RAG + toolchain.',
+      f2_b1:'Dev, ops, data, compliance specialists', f2_b2:'Subscribe or buy outright — flexible pricing', f2_b3:'List your own employees and earn revenue', f2_zoom:'🔍 Click to expand',
+      f3_tag:'👥 HR Assets', f3_title:'Manage your<br>digital team.',
+      f3_desc:'See the full roster at a glance. Every employee has a performance dashboard — cost/output ratio visible in real time. Fire underperformers in one click; hire replacements instantly.',
+      f3_b1:'Lifecycle: Onboard → Train → Deploy → Retire', f3_b2:'Token spend & ROI monitoring in real time', f3_b3:'Customize prompts, permissions & knowledge base', f3_zoom:'🔍 Click to expand',
+      f4_tag:'📊 Command Hub', f4_title:'Real-time control<br>of the whole operation.',
+      f4_desc:'The task board shows active task counts, employee workload Gantt charts, and daily closed loops. Click any employee to drill into task duration, logs, and history.',
+      f4_b1:'Multi-employee Gantt collaboration', f4_b2:'Interactive real-time logs', f4_b3:'One-click task drill-down', f4_zoom:'🔍 Click to expand',
+      f5_tag:'🔗 Integrations', f5_title:'Connect your<br>entire workflow.',
+      f5_desc:'One-click OAuth with WeCom, Feishu, DingTalk, and Slack. Assign any channel to a digital employee for monitoring, routing, and auto-reply — full-coverage automation.',
+      f5_b1:'WeCom · Feishu · DingTalk · Slack', f5_b2:'Message routing by employee specialty', f5_b3:'Auto-reply + task triggering', f5_zoom:'🔍 Click to expand',
+      how_label:'How It Works', how_title:'Three steps to your<br>AI-native company.',
+      s1_title:'Type One Sentence', s1_desc:'Describe your goal in the Command Center — e.g. "Build and launch a casual mobile game for college students." The system instantly breaks it down and dispatches tasks.',
+      s2_title:'AI Employees Execute', s2_desc:'AI PM researches, AI Dev builds and deploys, AI MKT publishes content. Every task node is transparent and traceable — all outputs visible in real time.',
+      s3_title:'Self-Evolving Loop', s3_desc:'Data feedback drives the next iteration — high-performing strategies are amplified, low-performers are cut. Your company gets stronger with every cycle.',
+      store_title:'Ready-to-hire<br>digital employees.', store_desc:'Ready out of the box, or build and list your own — ClawCorp is building the world\'s largest AI employee ecosystem.',
+      a1_name:'Growth Hacker', a1_t1:'Market Research', a1_t2:'Data Analysis', a1_t3:'Growth Strategy',
+      a1_desc:'Finds growth opportunities through data, designs full-funnel growth experiments, and outputs structured JSON artifacts.',
+      a2_name:'Full-Stack Dev', a2_t1:'Code Gen', a2_t2:'Architecture', a2_t3:'Auto Deploy',
+      a2_desc:'Handles the full dev cycle from requirements to cloud deployment. Auto-scales under high traffic.',
+      a3_name:'Hype MKT', a3_t1:'Multi-platform', a3_t2:'A/B Narrative', a3_t3:'Self-evolving',
+      a3_desc:'4-narrative A/B testing, hourly conversion tracking, auto-kills low performers, amplifies viral content.',
+      price_label:'Monthly',
+      wl_badge:'🚀 Early Access Open', wl_title:'Get early access to<br><span>ClawCorp</span>',
+      wl_sub:'Early users get exclusive discounts and priority onboarding. Leave your email and we\'ll reach out the moment we open.',
+      wl_placeholder:'Your email address', wl_btn:'Join Waitlist', wl_submitting:'Submitting…',
+      wl_success:'You\'re on the list! We\'ll be in touch soon.', wl_note:'No spam. Unsubscribe anytime.',
+      wl_error_general:'Submission failed, please try again', wl_error_network:'Network error, please try again',
+      footer_feat:'Features', footer_how:'How It Works', footer_waitlist:'Join Waitlist',
+      footer_copy:'© 2026 ClawCorp. The OS for an All-AI Company.',
+    }
+  };
+
+  // Detect & apply language
+  let currentLang = localStorage.getItem('lang') ||
+    (navigator.language || navigator.userLanguage || 'zh').startsWith('zh') ? 'zh' : 'en';
+
+  function applyLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    const d = T[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (d[key] !== undefined) el.textContent = d[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (d[key] !== undefined) el.innerHTML = d[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (d[key] !== undefined) el.placeholder = d[key];
+    });
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  }
+
+  function toggleLang() {
+    applyLang(currentLang === 'zh' ? 'en' : 'zh');
+  }
+
+  // Init on load
+  applyLang(currentLang);
+
   // ── Lightbox ───────────────────────────────────────────
   function openLightbox(wrap) {
     const img = wrap.querySelector('img');
@@ -1423,18 +1549,14 @@
   }
 
   function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('open');
+    document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  // Click backdrop or Esc to close
   document.getElementById('lightbox').addEventListener('click', function(e) {
     if (e.target === this || e.target === document.getElementById('lightbox-img')) closeLightbox();
   });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeLightbox();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
   // ── Scroll reveal ──────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
@@ -1447,11 +1569,9 @@
     e.preventDefault();
     const email = document.getElementById('emailInput').value.trim();
     if (!email) return;
-
     const btn = document.getElementById('wlBtn');
-    btn.textContent = '提交中…';
+    btn.textContent = T[currentLang].wl_submitting;
     btn.disabled = true;
-
     try {
       const res = await fetch('/api/waitlist', {
         method: 'POST',
@@ -1463,14 +1583,14 @@
         document.getElementById('waitlistForm').style.display = 'none';
         document.getElementById('wlSuccess').classList.add('show');
       } else {
-        btn.textContent = '加入候补';
+        btn.textContent = T[currentLang].wl_btn;
         btn.disabled = false;
-        alert(data.error || '提交失败，请重试');
+        alert(data.error || T[currentLang].wl_error_general);
       }
     } catch {
-      btn.textContent = '加入候补';
+      btn.textContent = T[currentLang].wl_btn;
       btn.disabled = false;
-      alert('网络错误，请重试');
+      alert(T[currentLang].wl_error_network);
     }
   }
 </script>
