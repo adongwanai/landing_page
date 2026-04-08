@@ -112,19 +112,34 @@
     }
     .nav-cta:hover { background: #2d3035 !important; transform: scale(1.03) !important; }
 
-    .lang-btn {
+    /* iOS Segmented Control — subtle, left-aligned */
+    .lang-seg {
+      display: flex;
+      align-items: center;
+      background: rgba(26,28,30,0.06);
+      border-radius: 7px;
+      padding: 2px;
+      gap: 0;
+    }
+    .lang-seg-btn {
       background: transparent;
       border: none;
-      padding: 7px 14px;
-      font-size: 14px;
+      border-radius: 5px;
+      padding: 3px 9px;
+      font-size: 11px;
       font-weight: 500;
       font-family: inherit;
-      color: var(--text2);
+      color: rgba(26,28,30,0.35);
       cursor: pointer;
-      border-radius: 10px;
-      transition: color 0.2s, background 0.2s;
+      transition: color 0.18s;
+      line-height: 1;
+      white-space: nowrap;
     }
-    .lang-btn:hover { color: var(--dark); background: rgba(0,0,0,0.04); }
+    .lang-seg-btn.active {
+      background: var(--white);
+      color: var(--dark);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.10), 0 0 0 0.5px rgba(0,0,0,0.05);
+    }
 
     /* ── HERO ───────────────────────────────── */
     #hero {
@@ -1060,16 +1075,21 @@
 
 <!-- ── NAV ── -->
 <nav>
-  <a class="nav-brand" href="#">
-    <div class="nav-logo">C</div>
-    <span class="nav-name">ClawCorp</span>
-  </a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo">C</div>
+      <span class="nav-name">ClawCorp</span>
+    </a>
+    <div class="lang-seg">
+      <button class="lang-seg-btn" id="btn-zh" onclick="applyLang('zh')">中</button>
+      <button class="lang-seg-btn" id="btn-en" onclick="applyLang('en')">EN</button>
+    </div>
+  </div>
   <ul class="nav-links">
     <li><a href="#features" data-i18n="nav_features">产品功能</a></li>
     <li><a href="#howitworks" data-i18n="nav_how">运转方式</a></li>
     <li><a href="#store">Claw Store</a></li>
     <li><a href="#waitlist" class="nav-cta" data-i18n="nav_cta">加入候补名单</a></li>
-    <li><button class="lang-btn" onclick="toggleLang()" data-i18n="lang_toggle">🌐 EN</button></li>
   </ul>
 </nav>
 
@@ -1527,10 +1547,9 @@
       if (d[key] !== undefined) el.placeholder = d[key];
     });
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-  }
-
-  function toggleLang() {
-    applyLang(currentLang === 'zh' ? 'en' : 'zh');
+    // Sync segmented control active state
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   }
 
   // Init on load
