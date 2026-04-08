@@ -1149,6 +1149,17 @@
       .footer-links { flex-wrap: wrap; gap: 16px; }
     }
   </style>
+
+  <!-- Baidu Analytics -->
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?1183bcc8c597d542d6fae33055407435";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
 </head>
 <body>
 
@@ -1168,7 +1179,7 @@
     <li><a href="#features" data-i18n="nav_features">产品功能</a></li>
     <li><a href="#howitworks" data-i18n="nav_how">运转方式</a></li>
     <li><a href="#store">Claw Store</a></li>
-    <li><a href="#waitlist" class="nav-cta" data-i18n="nav_cta">加入候补名单</a></li>
+    <li><a href="#waitlist" class="nav-cta" data-i18n="nav_cta" onclick="_hmt.push(['_trackEvent','cta','click','nav'])">加入候补名单</a></li>
   </ul>
 </nav>
 
@@ -1189,7 +1200,7 @@
   </p>
 
   <div class="hero-actions">
-    <a href="#waitlist" class="btn-dark" data-i18n="btn_waitlist">加入候补名单 →</a>
+    <a href="#waitlist" class="btn-dark" data-i18n="btn_waitlist" onclick="_hmt.push(['_trackEvent','cta','click','hero'])">加入候补名单 →</a>
     <a href="#features" class="btn-outline" data-i18n="btn_features">了解产品功能</a>
   </div>
 
@@ -1618,6 +1629,7 @@
     (navigator.language || navigator.userLanguage || 'zh').startsWith('zh') ? 'zh' : 'en';
 
   function applyLang(lang) {
+    _hmt.push(['_trackEvent', 'language', 'toggle', lang]);
     currentLang = lang;
     localStorage.setItem('lang', lang);
     const d = T[lang];
@@ -1645,6 +1657,7 @@
   // ── Lightbox ───────────────────────────────────────────
   function openLightbox(wrap) {
     const img = wrap.querySelector('img');
+    _hmt.push(['_trackEvent', 'feature', 'image_open', img.alt || img.src]);
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
     lbImg.src = img.src;
@@ -1685,6 +1698,7 @@
       });
       const data = await res.json();
       if (res.ok && data.ok) {
+        _hmt.push(['_trackEvent', 'waitlist', 'submit_success', currentLang]);
         document.getElementById('waitlistForm').style.display = 'none';
         document.getElementById('wlSuccess').classList.add('show');
         const qr = document.getElementById('wlQr');
