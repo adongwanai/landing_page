@@ -6,5 +6,6 @@ services:
     volumes:
       - ./data:/app/data
     env_file:
-      - .env
+      - path: .env
+        required: false  # local only; on Zeabur set vars in dashboard
     restart: unless-stopped
