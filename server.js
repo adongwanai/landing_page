@@ -70,66 +70,99 @@ function buildWelcomeEmail(email, lang) {
   const isZh = lang !== 'en';
 
   const subject = isZh
-    ? '你已加入 ClawCorp 候补名单'
-    : 'You\'re on the ClawCorp waitlist';
+    ? '你已加入 ClawCorp 候补名单 ✦'
+    : 'You\'re on the ClawCorp waitlist ✦';
 
   const html = `<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#F2F0E9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="max-width:520px;margin:40px auto;padding:0 16px 40px">
+<html lang="${isZh ? 'zh-CN' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${isZh ? 'ClawCorp 候补确认' : 'ClawCorp Waitlist Confirmation'}</title>
+</head>
+<body style="margin:0;padding:0;background:#F2F0E9;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F2F0E9;padding:48px 0 64px">
+<tr><td align="center">
+<table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%">
 
-    <!-- Logo -->
-    <div style="text-align:center;padding:40px 0 32px">
-      <div style="display:inline-flex;align-items:center;gap:10px">
-        <div style="width:40px;height:40px;background:#1A1C1E;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#FFD233;vertical-align:middle">C</div>
-        <span style="font-size:20px;font-weight:800;color:#1A1C1E;vertical-align:middle;letter-spacing:-0.3px">ClawCorp</span>
-      </div>
-    </div>
+  <!-- Logo row -->
+  <tr><td style="padding:0 24px 36px;text-align:center">
+    <table cellpadding="0" cellspacing="0" style="display:inline-table">
+      <tr>
+        <td style="width:36px;height:36px;background:#1A1C1E;border-radius:10px;text-align:center;vertical-align:middle;font-size:18px;font-weight:800;color:#FFD233;letter-spacing:-0.3px">C</td>
+        <td style="padding-left:10px;font-size:18px;font-weight:800;color:#1A1C1E;letter-spacing:-0.3px;vertical-align:middle">ClawCorp</td>
+      </tr>
+    </table>
+  </td></tr>
 
-    <!-- Card -->
-    <div style="background:#1A1C1E;border-radius:32px;padding:48px 40px;text-align:center">
+  <!-- Main card -->
+  <tr><td style="padding:0 16px">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#1A1C1E;border-radius:28px;overflow:hidden">
+
+    <!-- Top accent bar -->
+    <tr><td style="height:3px;background:linear-gradient(90deg,#FFD233,#FF6B4A)"></td></tr>
+
+    <!-- Card body -->
+    <tr><td style="padding:48px 40px 40px;text-align:center">
 
       <!-- Badge -->
-      <div style="display:inline-block;background:rgba(255,210,51,0.15);border:1px solid rgba(255,210,51,0.25);border-radius:999px;padding:6px 18px;font-size:12px;font-weight:700;color:#FFD233;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:28px">
-        ${isZh ? '候补名单' : 'Waitlist'}
-      </div>
+      <table cellpadding="0" cellspacing="0" style="margin:0 auto 28px">
+        <tr><td style="background:rgba(255,210,51,0.12);border:1px solid rgba(255,210,51,0.22);border-radius:999px;padding:5px 16px;font-size:11px;font-weight:700;color:#FFD233;letter-spacing:0.1em;text-transform:uppercase">
+          ${isZh ? '✦ &nbsp;已确认' : '✦ &nbsp;Confirmed'}
+        </td></tr>
+      </table>
 
-      <!-- Title -->
-      <h1 style="margin:0 0 16px;font-size:28px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;line-height:1.2">
-        ${isZh ? '你已成功加入候补名单 🎉' : 'You\'re in. Welcome aboard 🎉'}
+      <!-- Headline -->
+      <h1 style="margin:0 0 20px;font-size:26px;font-weight:800;color:#FFFFFF;letter-spacing:-0.5px;line-height:1.25">
+        ${isZh ? '你已加入候补名单' : 'You\'re on the list'}
       </h1>
 
-      <!-- Subtitle -->
-      <p style="margin:0 0 32px;font-size:16px;color:rgba(255,255,255,0.5);line-height:1.7;max-width:360px;margin-left:auto;margin-right:auto">
+      <!-- Body -->
+      <p style="margin:0 0 36px;font-size:15px;color:rgba(255,255,255,0.48);line-height:1.8;max-width:340px;margin-left:auto;margin-right:auto">
         ${isZh
-          ? '我们正在内测阶段，一旦有名额开放，你将<strong style="color:rgba(255,255,255,0.85)">第一时间</strong>收到通知。'
-          : 'We\'re in closed beta. You\'ll be the <strong style="color:rgba(255,255,255,0.85)">first to know</strong> when a spot opens up.'}
+          ? '我们正在内测阶段。一旦有名额开放，<span style="color:rgba(255,255,255,0.85);font-weight:600">你将第一个收到通知</span>。感谢你的关注与耐心等待。'
+          : 'We\'re currently in closed beta. <span style="color:rgba(255,255,255,0.85);font-weight:600">You\'ll be the first to know</span> when a spot opens. Thanks for your patience.'}
       </p>
 
       <!-- Divider -->
-      <div style="width:48px;height:2px;background:rgba(255,255,255,0.08);margin:0 auto 32px"></div>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px">
+        <tr>
+          <td style="border-top:1px solid rgba(255,255,255,0.06)"></td>
+        </tr>
+      </table>
 
       <!-- Tagline -->
-      <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.25);line-height:1.6">
+      <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.22);line-height:1.7;font-style:italic">
         ${isZh
-          ? '你只需输入一句话，剩下的交给 <span style="color:#FFD233;font-weight:700">AI 军团</span>。'
-          : 'You type one prompt, the <span style="color:#FFD233;font-weight:700">AI Army</span> does the rest.'}
+          ? '"你只需输入一句话，剩下的交给 <span style="color:#FFD233;font-style:normal;font-weight:700">AI 军团</span>。"'
+          : '"You type one prompt, the <span style="color:#FFD233;font-style:normal;font-weight:700">AI Army</span> does the rest."'}
       </p>
-    </div>
 
-    <!-- Footer -->
-    <p style="text-align:center;margin:24px 0 0;font-size:12px;color:#999">
+    </td></tr>
+  </table>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="padding:28px 24px 0;text-align:center">
+    <p style="margin:0 0 6px;font-size:12px;color:#aaa">
       ClawCorp &nbsp;·&nbsp; ${isZh ? '全 AI 员工的公司操作系统' : 'The AI-native company OS'}
     </p>
+    <p style="margin:0;font-size:11px;color:#bbb">
+      ${isZh
+        ? `此邮件发送至 ${email}，因为你在 clawcorp.top 提交了候补申请。`
+        : `This email was sent to ${email} because you signed up at clawcorp.top.`}
+    </p>
+  </td></tr>
 
-  </div>
+</table>
+</td></tr>
+</table>
 </body>
 </html>`;
 
   const text = isZh
-    ? `感谢加入 ClawCorp 候补名单！我们将在有名额时第一时间通知你。\n\n你只需输入一句话，剩下的交给 AI 军团。`
-    : `Thanks for joining the ClawCorp waitlist! You'll be the first to know when a spot opens.\n\nYou type one prompt, the AI Army does the rest.`;
+    ? `你已加入 ClawCorp 候补名单\n\n我们正在内测阶段，一旦有名额开放，你将第一个收到通知。\n\n"你只需输入一句话，剩下的交给 AI 军团。"\n\n— ClawCorp 团队\nclawcorp.top`
+    : `You're on the ClawCorp waitlist\n\nWe're in closed beta. You'll be the first to know when a spot opens.\n\n"You type one prompt, the AI Army does the rest."\n\n— The ClawCorp Team\nclawcorp.top`;
 
   return { subject, html, text };
 }
