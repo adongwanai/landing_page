@@ -13,6 +13,12 @@ const ZEABUR_EMAIL_API_KEY = process.env.ZEABUR_EMAIL_API_KEY || '';
 const EMAIL_FROM = process.env.EMAIL_FROM || '';
 const ADMIN_NOTIFY_EMAIL = process.env.ADMIN_NOTIFY_EMAIL || '';
 
+// Preload QR code as base64 for email embedding
+const QR_CODE_PATH = path.join(__dirname, 'assets', 'qrcode.jpg');
+const QR_CODE_B64 = fs.existsSync(QR_CODE_PATH)
+  ? `data:image/jpeg;base64,${fs.readFileSync(QR_CODE_PATH).toString('base64')}`
+  : '';
+
 // Ensure data directory exists
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
   fs.mkdirSync(path.join(__dirname, 'data'));
@@ -143,11 +149,29 @@ function buildWelcomeEmail(email, lang) {
       </table>
 
       <!-- Tagline -->
-      <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.22);line-height:1.7;font-style:italic">
+      <p style="margin:0 0 36px;font-size:13px;color:rgba(255,255,255,0.22);line-height:1.7;font-style:italic">
         ${isZh
           ? '"你只需输入一句话，剩下的交给 <span style="color:#FFD233;font-style:normal;font-weight:700">AI 军团</span>。"'
           : '"You type one prompt, the <span style="color:#FFD233;font-style:normal;font-weight:700">AI Army</span> does the rest."'}
       </p>
+
+      ${QR_CODE_B64 ? `
+      <!-- Divider -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px">
+        <tr><td style="border-top:1px solid rgba(255,255,255,0.06)"></td></tr>
+      </table>
+
+      <!-- QR Code -->
+      <p style="margin:0 0 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase">
+        ${isZh ? '扫码加入内测群' : 'Join the Beta Group'}
+      </p>
+      <img src="${QR_CODE_B64}" width="160" height="160"
+        alt="${isZh ? '微信内测群二维码' : 'WeChat Beta Group QR'}"
+        style="border-radius:12px;border:2px solid rgba(255,255,255,0.08);background:#fff;display:block;margin:0 auto 12px">
+      <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.2)">
+        ${isZh ? '微信扫码 · 有效期至 4/16' : 'WeChat scan · Valid until Apr 16'}
+      </p>
+      ` : ''}
 
     </td></tr>
   </table>
