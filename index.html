@@ -1058,13 +1058,18 @@
       .stats-row { grid-template-columns: repeat(2, 1fr); }
       .steps-grid { grid-template-columns: 1fr; }
       .agents-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 14px; }
+      .nav-name { display: none; }
       .nav-links li:not(:last-child) { display: none; }
+      .nav-cta { padding: 7px 14px !important; font-size: 12px !important; white-space: nowrap; }
       .waitlist-card { padding: 48px 28px; }
       .wl-form { flex-direction: column; }
       footer { flex-direction: column; align-items: flex-start; gap: 16px; }
       .kodak-inner { grid-template-columns: 1fr; gap: 0; }
       .kodak-divider { width: 60px; height: 1px; margin: 32px auto; }
       .kodak-divider::after { display: none; }
+      .kodak-arrow { font-size: 0; }
+      .kodak-arrow::before { content: "↓"; font-size: 18px; }
       .kodak-year { font-size: 11px; }
       .kodak-quote { font-size: clamp(22px, 5vw, 32px); }
       .clawcorp-response { font-size: clamp(22px, 5vw, 34px); }
