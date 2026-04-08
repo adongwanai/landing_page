@@ -165,9 +165,9 @@ function buildWelcomeEmail(email, lang) {
       <p style="margin:0 0 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase">
         ${isZh ? '扫码加入内测群' : 'Join the Beta Group'}
       </p>
-      <img src="${QR_CODE_B64}" width="160" height="160"
+      <img src="${QR_CODE_B64}"
         alt="${isZh ? '微信内测群二维码' : 'WeChat Beta Group QR'}"
-        style="border-radius:12px;border:2px solid rgba(255,255,255,0.08);background:#fff;display:block;margin:0 auto 12px">
+        style="max-width:220px;width:100%;height:auto;border-radius:12px;border:2px solid rgba(255,255,255,0.08);background:#fff;display:block;margin:0 auto 12px">
       <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.2)">
         ${isZh ? '微信扫码 · 有效期至 4/16' : 'WeChat scan · Valid until Apr 16'}
       </p>
