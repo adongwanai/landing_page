@@ -520,13 +520,112 @@
       overflow: hidden;
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+      cursor: zoom-in;
     }
     .feature-img-wrap img {
       width: 100%;
       display: block;
-      transition: transform 0.6s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    .feature-img-wrap:hover img { transform: scale(1.02); }
+    .feature-img-wrap:hover img {
+      transform: scale(1.04);
+    }
+    /* hover overlay */
+    .feature-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26,28,30,0);
+      transition: background 0.3s ease;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .feature-img-wrap:hover::after {
+      background: rgba(26,28,30,0.12);
+    }
+    /* zoom hint badge */
+    .feature-img-wrap .zoom-hint {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .feature-img-wrap:hover .zoom-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── LIGHTBOX ──────────────────────────── */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 24px;
+      pointer-events: none;
+      transition: background 0.3s ease;
+    }
+    #lightbox.open {
+      background: rgba(0,0,0,0.82);
+      pointer-events: all;
+      cursor: zoom-out;
+    }
+    #lightbox-img {
+      max-width: min(1200px, 92vw);
+      max-height: 88vh;
+      border-radius: 20px;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: block;
+      object-fit: contain;
+      cursor: zoom-out;
+    }
+    #lightbox.open #lightbox-img {
+      opacity: 1;
+      transform: scale(1);
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 24px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s, background 0.2s;
+    }
+    #lightbox.open #lightbox-close { opacity: 1; }
+    #lightbox-close:hover { background: rgba(255,255,255,0.22); }
 
     /* ── HOW IT WORKS ──────────────────────── */
     #howitworks {
@@ -1066,8 +1165,9 @@
         <li><span class="bullet-dot"></span>中间产物：PRD、代码、报告实时输出</li>
       </ul>
     </div>
-    <div class="feature-img-wrap">
+    <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/62c89e769475d1205431a8885a769941.jpg" alt="指令中心" />
+      <span class="zoom-hint">🔍 点击查看大图</span>
     </div>
   </div>
 
@@ -1085,8 +1185,9 @@
         <li><span class="bullet-dot"></span>也可上架自建员工、赚取收益</li>
       </ul>
     </div>
-    <div class="feature-img-wrap">
+    <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/62bc4f1fdedcd64d45d7983a071b4f8f.png" alt="人才市集" />
+      <span class="zoom-hint">🔍 点击查看大图</span>
     </div>
   </div>
 
@@ -1104,8 +1205,9 @@
         <li><span class="bullet-dot"></span>自定义 Prompt、权限与知识库</li>
       </ul>
     </div>
-    <div class="feature-img-wrap">
+    <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/8b1a0ed6d3928b2f8abbc391488ce5df.png" alt="人力资产" />
+      <span class="zoom-hint">🔍 点击查看大图</span>
     </div>
   </div>
 
@@ -1123,8 +1225,9 @@
         <li><span class="bullet-dot"></span>任务状态一键穿透</li>
       </ul>
     </div>
-    <div class="feature-img-wrap">
+    <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/cb7a669def04a61efea4ae1e7aa757d7.png" alt="指挥中枢" />
+      <span class="zoom-hint">🔍 点击查看大图</span>
     </div>
   </div>
 
@@ -1142,8 +1245,9 @@
         <li><span class="bullet-dot"></span>自动回复 + 任务触发</li>
       </ul>
     </div>
-    <div class="feature-img-wrap">
+    <div class="feature-img-wrap" onclick="openLightbox(this)">
       <img src="assets/1dc76dd20614981dca6c46cfbef09b71.png" alt="生态网关" />
+      <span class="zoom-hint">🔍 点击查看大图</span>
     </div>
   </div>
 </div>
@@ -1249,6 +1353,12 @@
   </div>
 </div>
 
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
 <!-- ── WAITLIST ── -->
 <section id="waitlist">
   <div class="section-wrap" style="padding-bottom:0">
@@ -1301,6 +1411,31 @@
 </footer>
 
 <script>
+  // ── Lightbox ───────────────────────────────────────────
+  function openLightbox(wrap) {
+    const img = wrap.querySelector('img');
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Click backdrop or Esc to close
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this || e.target === document.getElementById('lightbox-img')) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
   // ── Scroll reveal ──────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
