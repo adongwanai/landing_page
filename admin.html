@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClawCorp — 候补名单管理</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue: #0071e3;
+      --black: #000;
+      --near-black: #1d1d1f;
+      --gray-bg: #f5f5f7;
+      --white: #fff;
+      --border: rgba(0,0,0,0.10);
+      --text-2: rgba(0,0,0,0.5);
+      --red: #ff3b30;
+      --green: #30d158;
+    }
+
+    body {
+      font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      background: var(--gray-bg);
+      color: var(--near-black);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+    }
+
+    .login-box {
+      background: #1c1c1e;
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 360px;
+      text-align: center;
+    }
+
+    .login-logo {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+    }
+
+    .login-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 36px;
+    }
+
+    .login-input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 16px;
+      color: var(--white);
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 16px;
+      letter-spacing: 0.1em;
+      transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--blue); }
+    .login-input::placeholder { letter-spacing: 0; color: rgba(255,255,255,0.25); }
+
+    .login-btn {
+      width: 100%;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .login-btn:hover { background: #0077ed; }
+
+    .login-error {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--red);
+      display: none;
+    }
+    .login-error.show { display: block; }
+
+    /* ── MAIN ── */
+    #mainScreen { display: none; min-height: 100vh; }
+
+    header {
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      padding: 0 32px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-logo {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.3px;
+    }
+
+    .header-badge {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.08);
+      padding: 3px 10px;
+      border-radius: 980px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-export {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-export:hover { background: #0077ed; }
+
+    .btn-logout {
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-logout:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow: rgba(0,0,0,0.08) 0 2px 12px;
+    }
+
+    .stat-card-num {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--near-black);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card-label {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    /* Table card */
+    .table-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: rgba(0,0,0,0.08) 0 2px 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .table-count {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+      text-align: left;
+      padding: 12px 28px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: #fafafa;
+    }
+
+    td {
+      font-size: 14px;
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f9f9fb; }
+
+    .email-cell {
+      font-weight: 500;
+      color: var(--near-black);
+    }
+
+    .date-cell {
+      color: var(--text-2);
+      font-size: 13px;
+    }
+
+    .ip-cell {
+      color: var(--text-2);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-2);
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .delete-btn:hover { color: var(--red); background: rgba(255,59,48,0.08); }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .page-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      color: var(--near-black);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .page-btn:hover { background: var(--gray-bg); }
+    .page-btn.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .page-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-2);
+    }
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--near-black);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      color: var(--text-2);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">ClawCorp</div>
+    <div class="login-sub">管理后台 · 候补名单</div>
+    <input
+      class="login-input"
+      type="password"
+      id="passwordInput"
+      placeholder="输入管理员密码"
+      onkeydown="if(event.key==='Enter') login()"
+    />
+    <button class="login-btn" onclick="login()">登录</button>
+    <p class="login-error" id="loginError">密码错误，请重试</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="mainScreen">
+  <header>
+    <div class="header-left">
+      <span class="header-logo">ClawCorp</span>
+      <span class="header-badge">Admin</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-export" onclick="exportCSV()">导出 CSV</button>
+      <button class="btn-logout" onclick="logout()">退出登录</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-card-num" id="statTotal">—</div>
+        <div class="stat-card-label">候补总人数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statToday">—</div>
+        <div class="stat-card-label">今日新增</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statWeek">—</div>
+        <div class="stat-card-label">本周新增</div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header">
+        <span class="table-title">候补名单</span>
+        <span class="table-count" id="tableCount"></span>
+      </div>
+      <div id="tableWrap">
+        <div class="loading">加载中…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  let adminPassword = '';
+  let currentPage = 1;
+  const LIMIT = 50;
+  let allData = [];
+
+  // ── Auth ──────────────────────────────────────────────
+  function login() {
+    const pw = document.getElementById('passwordInput').value.trim();
+    if (!pw) return;
+    adminPassword = pw;
+    fetchList(1, pw).then(ok => {
+      if (ok) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainScreen').style.display = 'block';
+      } else {
+        document.getElementById('loginError').classList.add('show');
+        adminPassword = '';
+      }
+    });
+  }
+
+  function logout() {
+    adminPassword = '';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainScreen').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginError').classList.remove('show');
+  }
+
+  // ── Data ──────────────────────────────────────────────
+  async function fetchList(page = 1, pw = adminPassword) {
+    try {
+      const res = await fetch(`/api/admin/list?page=${page}&limit=${LIMIT}`, {
+        headers: { 'x-admin-password': pw }
+      });
+      if (res.status === 401) return false;
+      const json = await res.json();
+      allData = json.data;
+      renderTable(json);
+      renderStats(json);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function renderStats(json) {
+    document.getElementById('statTotal').textContent = json.total;
+
+    const now = new Date();
+    const todayStr = now.toISOString().slice(0, 10);
+    const weekAgo = new Date(now - 7 * 86400000).toISOString();
+
+    // We only have the current page — for accurate counts we'd need all records.
+    // Simple approach: count from what we have, mark with ~
+    let todayCount = 0, weekCount = 0;
+    allData.forEach(e => {
+      if (e.createdAt.startsWith(todayStr)) todayCount++;
+      if (e.createdAt >= weekAgo) weekCount++;
+    });
+
+    document.getElementById('statToday').textContent = todayCount;
+    document.getElementById('statWeek').textContent = weekCount;
+    document.getElementById('tableCount').textContent = `共 ${json.total} 条`;
+  }
+
+  function renderTable(json) {
+    const wrap = document.getElementById('tableWrap');
+    if (!json.data || json.data.length === 0) {
+      wrap.innerHTML = `<div class="empty-state"><div class="icon">📭</div><p>还没有候补用户</p></div>`;
+      return;
+    }
+
+    const rows = json.data.map(e => `
+      <tr id="row-${e.id}">
+        <td class="email-cell">${escHtml(e.email)}</td>
+        <td class="date-cell">${formatDate(e.createdAt)}</td>
+        <td class="ip-cell">${escHtml(e.ip || '—')}</td>
+        <td>
+          <button class="delete-btn" onclick="deleteEntry(${e.id})" title="删除">✕</button>
+        </td>
+      </tr>
+    `).join('');
+
+    const totalPages = Math.ceil(json.total / LIMIT);
+
+    wrap.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>邮箱</th>
+            <th>注册时间</th>
+            <th>IP</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      ${totalPages > 1 ? renderPagination(json.page, totalPages) : ''}
+    `;
+  }
+
+  function renderPagination(page, total) {
+    const pages = [];
+    for (let i = 1; i <= total; i++) {
+      pages.push(`<button class="page-btn ${i === page ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`);
+    }
+    return `<div class="pagination">
+      <button class="page-btn" onclick="goPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>‹</button>
+      ${pages.join('')}
+      <button class="page-btn" onclick="goPage(${page + 1})" ${page >= total ? 'disabled' : ''}>›</button>
+    </div>`;
+  }
+
+  function goPage(p) {
+    currentPage = p;
+    fetchList(p);
+  }
+
+  // ── Actions ───────────────────────────────────────────
+  async function deleteEntry(id) {
+    if (!confirm('确认删除这条记录？')) return;
+    const res = await fetch(`/api/admin/delete/${id}`, {
+      method: 'DELETE',
+      headers: { 'x-admin-password': adminPassword }
+    });
+    if (res.ok) {
+      document.getElementById(`row-${id}`)?.remove();
+      showToast('已删除');
+      fetchList(currentPage);
+    }
+  }
+
+  function exportCSV() {
+    const url = `/api/admin/export`;
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '';
+
+    // Inject password via fetch + blob to avoid query string exposure
+    fetch(url, { headers: { 'x-admin-password': adminPassword } })
+      .then(r => r.blob())
+      .then(blob => {
+        const blobUrl = URL.createObjectURL(blob);
+        a.href = blobUrl;
+        a.click();
+        URL.revokeObjectURL(blobUrl);
+        showToast('CSV 已导出');
+      });
+  }
+
+  // ── Utils ─────────────────────────────────────────────
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+      + ' ' + d.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2400);
+  }
+</script>
+</body>
+</html>
