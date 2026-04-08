@@ -1050,6 +1050,8 @@
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── RESPONSIVE ─────────────────────────── */
+
+    /* Tablet ≤ 900px */
     @media (max-width: 900px) {
       .feature-block, .feature-block.reverse {
         grid-template-columns: 1fr;
@@ -1057,12 +1059,11 @@
       }
       .stats-row { grid-template-columns: repeat(2, 1fr); }
       .steps-grid { grid-template-columns: 1fr; }
-      .agents-grid { grid-template-columns: 1fr; }
+      .agents-grid { grid-template-columns: repeat(2, 1fr); }
       nav { padding: 0 14px; }
-      .nav-name { display: none; }
       .nav-links li:not(:last-child) { display: none; }
-      .nav-cta { padding: 7px 14px !important; font-size: 12px !important; white-space: nowrap; }
-      .waitlist-card { padding: 48px 28px; }
+      .nav-cta { white-space: nowrap; }
+      .waitlist-card { padding: 60px 48px; }
       .wl-form { flex-direction: column; }
       footer { flex-direction: column; align-items: flex-start; gap: 16px; }
       .kodak-inner { grid-template-columns: 1fr; gap: 0; }
@@ -1073,6 +1074,47 @@
       .kodak-year { font-size: 11px; }
       .kodak-quote { font-size: clamp(22px, 5vw, 32px); }
       .clawcorp-response { font-size: clamp(22px, 5vw, 34px); }
+    }
+
+    /* Mobile ≤ 600px */
+    @media (max-width: 600px) {
+      nav { padding: 0 12px; top: 12px; width: calc(100% - 24px); }
+      .nav-name { display: none; }
+      .nav-cta { padding: 7px 13px !important; font-size: 12px !important; }
+
+      #hero { padding: 108px 20px 56px; }
+      .hero-sub { font-size: 17px; }
+      .hero-actions { gap: 10px; }
+      .btn-dark, .btn-outline { padding: 12px 22px; font-size: 15px; }
+      .float-badge { display: none; }
+
+      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; margin-bottom: 64px; }
+      .stat-card { padding: 20px 18px; }
+      .stat-num { font-size: 32px; }
+
+      .section-wrap { padding: 0 20px 64px; }
+      h2.section-title { font-size: clamp(26px, 7vw, 40px); }
+      .section-desc { font-size: 16px; }
+
+      .feature-block { gap: 24px; margin-bottom: 56px; }
+      h3.feature-title { font-size: clamp(22px, 6vw, 30px); }
+
+      .kodak-section { padding: 60px 20px; margin-bottom: 56px; }
+
+      #howitworks { padding: 72px 0; margin-bottom: 64px; }
+      .step-card { padding: 28px 24px; }
+      .steps-grid { gap: 16px; margin-top: 40px; }
+
+      .agents-grid { grid-template-columns: 1fr; gap: 16px; }
+      .agent-card { padding: 24px 20px; }
+
+      .waitlist-card { padding: 48px 24px; border-radius: 32px; }
+      .wl-title { font-size: clamp(28px, 8vw, 44px); letter-spacing: -0.5px; }
+      .wl-sub { font-size: 16px; margin-bottom: 36px; }
+      .wl-input, .wl-btn { padding: 13px 18px; font-size: 15px; }
+
+      footer { padding: 36px 20px; }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
     }
   </style>
 </head>
