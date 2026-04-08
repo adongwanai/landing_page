@@ -12,3 +12,4 @@ RUN mkdir -p /app/data
 EXPOSE 4000
 
 CMD ["node", "server.js"]
+# env vars are injected by docker-compose via env_file: .env

@@ -973,6 +973,37 @@
       color: rgba(255,255,255,0.25);
     }
 
+    .wl-qr {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 32px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+    }
+    .wl-qr.show { display: flex; }
+    .wl-qr.visible { opacity: 1; transform: translateY(0); }
+    .wl-qr-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.04em;
+    }
+    .wl-qr img {
+      width: 280px;
+      max-width: 90vw;
+      height: auto;
+      border-radius: 16px;
+      border: 3px solid rgba(255,255,255,0.1);
+      background: #fff;
+    }
+    .wl-qr-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
     /* ── FOOTER ─────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -1448,6 +1479,12 @@
       </div>
 
       <p class="wl-note" data-i18n="wl_note">不发垃圾邮件，随时可退订。</p>
+
+      <div class="wl-qr" id="wlQr">
+        <p class="wl-qr-label" data-i18n="qr_label">扫码立即加入内测群</p>
+        <img src="assets/qrcode.jpg" alt="ClawCorp 内测群二维码" />
+        <p class="wl-qr-hint" data-i18n="qr_hint">微信扫码 · 二维码有效期至 4/16</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1517,6 +1554,7 @@
       wl_sub:'首批用户将获得专属折扣与优先配置支持。留下邮箱，内测开放第一时间通知你。',
       wl_placeholder:'你的邮箱地址', wl_btn:'加入候补', wl_submitting:'提交中…',
       wl_success:'已加入候补名单！我们会尽快联系你。', wl_note:'不发垃圾邮件，随时可退订。',
+      qr_label:'扫码立即加入内测群', qr_hint:'微信扫码 · 二维码有效期至 4/16',
       wl_error_general:'提交失败，请重试', wl_error_network:'网络错误，请重试',
       footer_feat:'产品功能', footer_how:'运转方式', footer_waitlist:'加入候补',
       footer_copy:'© 2026 ClawCorp. 全AI员工的公司操作系统。',
@@ -1568,6 +1606,7 @@
       wl_sub:'Early users get exclusive discounts and priority onboarding. Leave your email and we\'ll reach out the moment we open.',
       wl_placeholder:'Your email address', wl_btn:'Join Waitlist', wl_submitting:'Submitting…',
       wl_success:'You\'re on the list! We\'ll be in touch soon.', wl_note:'No spam. Unsubscribe anytime.',
+      qr_label:'Scan to join the beta group', qr_hint:'WeChat scan · Valid until Apr 16',
       wl_error_general:'Submission failed, please try again', wl_error_network:'Network error, please try again',
       footer_feat:'Features', footer_how:'How It Works', footer_waitlist:'Join Waitlist',
       footer_copy:'© 2026 ClawCorp. The OS for an All-AI Company.',
@@ -1642,12 +1681,15 @@
       const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, lang: currentLang }),
       });
       const data = await res.json();
       if (res.ok && data.ok) {
         document.getElementById('waitlistForm').style.display = 'none';
         document.getElementById('wlSuccess').classList.add('show');
+        const qr = document.getElementById('wlQr');
+        qr.classList.add('show');
+        requestAnimationFrame(() => qr.classList.add('visible'));
       } else {
         btn.textContent = T[currentLang].wl_btn;
         btn.disabled = false;
