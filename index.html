@@ -114,18 +114,17 @@
 
     .lang-btn {
       background: transparent;
-      border: 1.5px solid rgba(26,28,30,0.2);
-      border-radius: 8px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 700;
+      border: none;
+      padding: 7px 14px;
+      font-size: 14px;
+      font-weight: 500;
       font-family: inherit;
       color: var(--text2);
       cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      border-radius: 10px;
+      transition: color 0.2s, background 0.2s;
     }
-    .lang-btn:hover { border-color: var(--dark); color: var(--dark); background: rgba(26,28,30,0.04); }
+    .lang-btn:hover { color: var(--dark); background: rgba(0,0,0,0.04); }
 
     /* ── HERO ───────────────────────────────── */
     #hero {
@@ -1070,7 +1069,7 @@
     <li><a href="#howitworks" data-i18n="nav_how">运转方式</a></li>
     <li><a href="#store">Claw Store</a></li>
     <li><a href="#waitlist" class="nav-cta" data-i18n="nav_cta">加入候补名单</a></li>
-    <li><button class="lang-btn" onclick="toggleLang()" data-i18n="lang_toggle">EN</button></li>
+    <li><button class="lang-btn" onclick="toggleLang()" data-i18n="lang_toggle">🌐 EN</button></li>
   </ul>
 </nav>
 
@@ -1404,7 +1403,7 @@
   // ── i18n ───────────────────────────────────────────────
   const T = {
     zh: {
-      nav_features:'产品功能', nav_how:'运转方式', nav_cta:'加入候补名单', lang_toggle:'EN',
+      nav_features:'产品功能', nav_how:'运转方式', nav_cta:'加入候补名单', lang_toggle:'🌐 EN',
       hero_badge:'全AI员工的公司操作系统',
       hero_title:'雇一支 <span class="accent-yellow">AI 军队</span><br>运转一家<span class="accent-underline">完整公司</span>',
       hero_sub:'从产品调研、开发部署到社媒营销，ClawCorp 让数字员工完成一切闭环——你只需输入一句话，<span class="hero-sub-highlight">剩下的交给我们</span>。',
@@ -1455,7 +1454,7 @@
       footer_copy:'© 2026 ClawCorp. 全AI员工的公司操作系统。',
     },
     en: {
-      nav_features:'Features', nav_how:'How It Works', nav_cta:'Join Waitlist', lang_toggle:'中文',
+      nav_features:'Features', nav_how:'How It Works', nav_cta:'Join Waitlist', lang_toggle:'🌐 中文',
       hero_badge:'The OS for an All-AI Company',
       hero_title:'Hire an <span class="accent-yellow">AI Army</span>.<br>Run a <span class="accent-underline">Real Company</span>.',
       hero_sub:'From product research and deployment to social marketing, ClawCorp lets digital employees close every loop — just type one sentence, <span class="hero-sub-highlight">we\'ll handle the rest</span>.',
