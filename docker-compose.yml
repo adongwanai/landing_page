@@ -1,0 +1,10 @@
+services:
+  landing:
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-clawcorp2026}
+    restart: unless-stopped
