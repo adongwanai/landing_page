@@ -6,6 +6,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const DATA_FILE = path.join(__dirname, 'data', 'waitlist.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'clawcorp2026';
+const EXPORT_USERNAME = process.env.EXPORT_USERNAME || 'Nolan';
+const EXPORT_PASSWORD = process.env.EXPORT_PASSWORD || '';
 
 const ZEABUR_EMAIL_API_KEY = process.env.ZEABUR_EMAIL_API_KEY || '';
 const EMAIL_FROM = process.env.EMAIL_FROM || '';
@@ -41,6 +43,15 @@ function requireAdmin(req, res, next) {
     return res.status(401).json({ error: '未授权' });
   }
   next();
+}
+
+function requireExportAuth(req, res, next) {
+  const authHeader = req.headers['authorization'] || '';
+  const b64 = authHeader.startsWith('Basic ') ? authHeader.slice(6) : '';
+  const [user, pass] = Buffer.from(b64, 'base64').toString().split(':');
+  if (user === EXPORT_USERNAME && pass === EXPORT_PASSWORD) return next();
+  res.setHeader('WWW-Authenticate', 'Basic realm="ClawCorp Export"');
+  res.status(401).send('Unauthorized');
 }
 
 // ── Email ─────────────────────────────────────────────────
@@ -236,8 +247,8 @@ app.get('/api/admin/list', requireAdmin, (req, res) => {
   });
 });
 
-// GET /api/admin/export — download CSV
-app.get('/api/admin/export', requireAdmin, (req, res) => {
+// GET /api/admin/export — download CSV (x-admin-password header, for admin.html)
+app.get('/api/admin/export', requireAdmin, (_req, res) => {
   const list = readEmails();
   const rows = ['id,email,createdAt,ip'];
   list.forEach(e => {
@@ -245,7 +256,19 @@ app.get('/api/admin/export', requireAdmin, (req, res) => {
   });
   res.setHeader('Content-Type', 'text/csv; charset=utf-8');
   res.setHeader('Content-Disposition', `attachment; filename="clawcorp-waitlist-${Date.now()}.csv"`);
-  res.send('\uFEFF' + rows.join('\n')); // BOM for Excel
+  res.send('\uFEFF' + rows.join('\n'));
+});
+
+// GET /export — browser-friendly CSV download with HTTP Basic Auth
+app.get('/export', requireExportAuth, (_req, res) => {
+  const list = readEmails();
+  const rows = ['id,email,createdAt,ip'];
+  list.forEach(e => {
+    rows.push(`${e.id},"${e.email}","${e.createdAt}","${e.ip}"`);
+  });
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="clawcorp-waitlist-${Date.now()}.csv"`);
+  res.send('\uFEFF' + rows.join('\n'));
 });
 
 // DELETE /api/admin/delete/:id — remove one entry
