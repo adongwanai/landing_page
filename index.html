@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClawCorp — 全AI员工的公司操作系统</title>
+  <link rel="icon" type="image/png" href="/assets/icon.png" />
+  <link rel="apple-touch-icon" href="/assets/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -68,14 +70,7 @@
     .nav-logo {
       width: 36px;
       height: 36px;
-      background: var(--dark);
       border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
       flex-shrink: 0;
     }
     .nav-name {
@@ -1023,15 +1018,9 @@
       gap: 10px;
     }
     .footer-logo {
-      width: 32px; height: 32px;
-      background: var(--dark);
+      width: 32px;
+      height: 32px;
       border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--accent);
     }
     .footer-name {
       font-size: 16px;
@@ -1167,7 +1156,7 @@
 <nav>
   <div style="display:flex;align-items:center;gap:12px">
     <a class="nav-brand" href="#">
-      <div class="nav-logo">C</div>
+      <img src="/assets/icon.png" class="nav-logo" alt="ClawCorp" style="object-fit:cover;" />
       <span class="nav-name">ClawCorp</span>
     </a>
     <div class="lang-seg">
@@ -1503,7 +1492,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">
-    <div class="footer-logo">C</div>
+    <img src="/assets/icon.png" class="footer-logo" alt="ClawCorp" style="object-fit:cover;" />
     <span class="footer-name">ClawCorp</span>
   </div>
   <ul class="footer-links">
