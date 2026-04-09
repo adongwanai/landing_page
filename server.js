@@ -30,6 +30,11 @@ if (!fs.existsSync(DATA_FILE)) {
 app.use(express.json());
 app.use(express.static(__dirname));
 
+// Serve favicon.ico → assets/icon.png
+app.get('/favicon.ico', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'assets', 'icon.png'));
+});
+
 // ── Helpers ──────────────────────────────────────────────
 function readEmails() {
   try {
