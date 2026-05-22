@@ -14,10 +14,6 @@
     {
       "src": "/export",
       "dest": "server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
     }
   ]
 }
