@@ -410,6 +410,10 @@
 <div id="toast"></div>
 
 <script>
+  // If deploying frontend to GitHub Pages and backend to Vercel, set your Vercel URL here (no trailing slash):
+  // e.g. const API_BASE_URL = 'https://clawcorp.vercel.app';
+  const API_BASE_URL = '';
+
   let adminPassword = '';
   let currentPage = 1;
   const LIMIT = 50;
@@ -442,7 +446,7 @@
   // ── Data ──────────────────────────────────────────────
   async function fetchList(page = 1, pw = adminPassword) {
     try {
-      const res = await fetch(`/api/admin/list?page=${page}&limit=${LIMIT}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/list?page=${page}&limit=${LIMIT}`, {
         headers: { 'x-admin-password': pw }
       });
       if (res.status === 401) return false;
@@ -532,7 +536,7 @@
   // ── Actions ───────────────────────────────────────────
   async function deleteEntry(id) {
     if (!confirm('确认删除这条记录？')) return;
-    const res = await fetch(`/api/admin/delete/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/api/admin/delete/${id}`, {
       method: 'DELETE',
       headers: { 'x-admin-password': adminPassword }
     });
@@ -544,7 +548,7 @@
   }
 
   function exportCSV() {
-    const url = `/api/admin/export`;
+    const url = `${API_BASE_URL}/api/admin/export`;
     const a = document.createElement('a');
     a.href = url;
     a.download = '';

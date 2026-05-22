@@ -13,26 +13,66 @@ const ZEABUR_EMAIL_API_KEY = process.env.ZEABUR_EMAIL_API_KEY || '';
 const EMAIL_FROM = process.env.EMAIL_FROM || '';
 const ADMIN_NOTIFY_EMAIL = process.env.ADMIN_NOTIFY_EMAIL || '';
 
+// Vercel KV Support (Redis via REST API)
+const KV_REST_API_URL = process.env.KV_REST_API_URL || '';
+const KV_REST_API_TOKEN = process.env.KV_REST_API_TOKEN || '';
+
 // Preload QR code as base64 for email embedding
 const QR_CODE_PATH = path.join(__dirname, 'assets', 'qrcode.jpg');
 const QR_CODE_B64 = fs.existsSync(QR_CODE_PATH)
   ? `data:image/jpeg;base64,${fs.readFileSync(QR_CODE_PATH).toString('base64')}`
   : '';
 
-// Ensure data directory exists
-if (!fs.existsSync(path.join(__dirname, 'data'))) {
+// Ensure data directory exists (only if not using Vercel KV)
+if (!KV_REST_API_URL && !fs.existsSync(path.join(__dirname, 'data'))) {
   fs.mkdirSync(path.join(__dirname, 'data'));
 }
-if (!fs.existsSync(DATA_FILE)) {
+if (!KV_REST_API_URL && !fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify([]));
 }
 
 app.use(express.json());
+
+// Native CORS middleware to support API calls from GitHub Pages
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-admin-password');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(express.static(__dirname));
 
 
+
 // ── Helpers ──────────────────────────────────────────────
-function readEmails() {
+async function readEmails() {
+  if (KV_REST_API_URL && KV_REST_API_TOKEN) {
+    try {
+      const res = await fetch(`${KV_REST_API_URL}/get/waitlist`, {
+        headers: { 'Authorization': `Bearer ${KV_REST_API_TOKEN}` }
+      });
+      if (!res.ok) {
+        console.error('[KV read] fetch error status:', res.status);
+        return [];
+      }
+      const data = await res.json();
+      if (data && data.result) {
+        return JSON.parse(data.result);
+      }
+      return [];
+    } catch (err) {
+      console.error('[KV read failed, returning empty]', err.message);
+      return [];
+    }
+  }
+
   try {
     return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   } catch {
@@ -40,9 +80,29 @@ function readEmails() {
   }
 }
 
-function saveEmails(list) {
+async function saveEmails(list) {
+  if (KV_REST_API_URL && KV_REST_API_TOKEN) {
+    try {
+      const res = await fetch(`${KV_REST_API_URL}/set/waitlist`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${KV_REST_API_TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(JSON.stringify(list))
+      });
+      if (!res.ok) {
+        console.error('[KV write] fetch error status:', res.status);
+      }
+    } catch (err) {
+      console.error('[KV write failed]', err.message);
+    }
+    return;
+  }
+
   fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2));
 }
+
 
 function requireAdmin(req, res, next) {
   const auth = req.headers['x-admin-password'];
@@ -233,7 +293,7 @@ app.post('/api/waitlist', async (req, res) => {
     return res.status(400).json({ error: '请输入有效邮箱' });
   }
 
-  const list = readEmails();
+  const list = await readEmails();
   const exists = list.some(e => e.email === email.toLowerCase().trim());
   if (exists) {
     return res.json({ ok: true, message: '已在候补名单中' });
@@ -246,7 +306,7 @@ app.post('/api/waitlist', async (req, res) => {
     ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress || '',
   });
 
-  saveEmails(list);
+  await saveEmails(list);
 
   // Send emails asynchronously (don't block the response)
   sendWelcomeEmail(email.toLowerCase().trim(), lang).catch(() => {});
@@ -258,8 +318,8 @@ app.post('/api/waitlist', async (req, res) => {
 // ── Admin API (password protected) ───────────────────────
 
 // GET /api/admin/list — paginated list
-app.get('/api/admin/list', requireAdmin, (req, res) => {
-  const list = readEmails();
+app.get('/api/admin/list', requireAdmin, async (req, res) => {
+  const list = await readEmails();
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 50;
   const start = (page - 1) * limit;
@@ -273,8 +333,8 @@ app.get('/api/admin/list', requireAdmin, (req, res) => {
 });
 
 // GET /api/admin/export — download CSV (x-admin-password header, for admin.html)
-app.get('/api/admin/export', requireAdmin, (_req, res) => {
-  const list = readEmails();
+app.get('/api/admin/export', requireAdmin, async (_req, res) => {
+  const list = await readEmails();
   const rows = ['id,email,createdAt,ip'];
   list.forEach(e => {
     rows.push(`${e.id},"${e.email}","${e.createdAt}","${e.ip}"`);
@@ -285,8 +345,8 @@ app.get('/api/admin/export', requireAdmin, (_req, res) => {
 });
 
 // GET /export — browser-friendly CSV download with HTTP Basic Auth
-app.get('/export', requireExportAuth, (_req, res) => {
-  const list = readEmails();
+app.get('/export', requireExportAuth, async (_req, res) => {
+  const list = await readEmails();
   const rows = ['id,email,createdAt,ip'];
   list.forEach(e => {
     rows.push(`${e.id},"${e.email}","${e.createdAt}","${e.ip}"`);
@@ -297,19 +357,24 @@ app.get('/export', requireExportAuth, (_req, res) => {
 });
 
 // DELETE /api/admin/delete/:id — remove one entry
-app.delete('/api/admin/delete/:id', requireAdmin, (req, res) => {
+app.delete('/api/admin/delete/:id', requireAdmin, async (req, res) => {
   const id = parseInt(req.params.id);
-  let list = readEmails();
+  let list = await readEmails();
   const before = list.length;
   list = list.filter(e => e.id !== id);
   if (list.length === before) return res.status(404).json({ error: '未找到' });
-  saveEmails(list);
+  await saveEmails(list);
   res.json({ ok: true });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n  Clawcorp Landing  →  http://localhost:${PORT}`);
-  console.log(`  Admin Panel       →  http://localhost:${PORT}/admin.html`);
-  console.log(`  Admin Password    →  ${ADMIN_PASSWORD}`);
-  console.log(`  Email enabled     →  ${ZEABUR_EMAIL_API_KEY ? 'YES' : 'NO (set ZEABUR_EMAIL_API_KEY)'}\n`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n  Clawcorp Landing  →  http://localhost:${PORT}`);
+    console.log(`  Admin Panel       →  http://localhost:${PORT}/admin.html`);
+    console.log(`  Admin Password    →  ${ADMIN_PASSWORD}`);
+    console.log(`  Email enabled     →  ${ZEABUR_EMAIL_API_KEY ? 'YES' : 'NO (set ZEABUR_EMAIL_API_KEY)'}\n`);
+  });
+}
+
+module.exports = app;
+

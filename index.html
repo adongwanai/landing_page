@@ -1506,6 +1506,10 @@
 </footer>
 
 <script>
+  // If deploying frontend to GitHub Pages and backend to Vercel, set your Vercel URL here (no trailing slash):
+  // e.g. const API_BASE_URL = 'https://clawcorp.vercel.app';
+  const API_BASE_URL = '';
+
   // ── i18n ───────────────────────────────────────────────
   const T = {
     zh: {
@@ -1681,7 +1685,7 @@
     btn.textContent = T[currentLang].wl_submitting;
     btn.disabled = true;
     try {
-      const res = await fetch('/api/waitlist', {
+      const res = await fetch(`${API_BASE_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, lang: currentLang }),
