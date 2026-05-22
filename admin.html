@@ -412,7 +412,9 @@
 <script>
   // If deploying frontend to GitHub Pages and backend to Vercel, set your Vercel URL here (no trailing slash):
   // e.g. const API_BASE_URL = 'https://clawcorp.vercel.app';
-  const API_BASE_URL = '';
+  const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? ''
+    : 'https://landing-page-pddx-ef879elqh-zzdnbs-projects.vercel.app';
 
   let adminPassword = '';
   let currentPage = 1;
