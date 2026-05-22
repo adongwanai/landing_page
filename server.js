@@ -4,7 +4,11 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const DATA_FILE = path.join(__dirname, 'data', 'waitlist.json');
+const IS_VERCEL = !!process.env.VERCEL;
+const DATA_FILE = IS_VERCEL
+  ? '/tmp/waitlist.json'
+  : path.join(__dirname, 'data', 'waitlist.json');
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'clawcorp2026';
 const EXPORT_USERNAME = process.env.EXPORT_USERNAME || 'Nolan';
 const EXPORT_PASSWORD = process.env.EXPORT_PASSWORD || '';
@@ -23,12 +27,23 @@ const QR_CODE_B64 = fs.existsSync(QR_CODE_PATH)
   ? `data:image/jpeg;base64,${fs.readFileSync(QR_CODE_PATH).toString('base64')}`
   : '';
 
-// Ensure data directory exists (only if not using Vercel KV)
-if (!KV_REST_API_URL && !fs.existsSync(path.join(__dirname, 'data'))) {
-  fs.mkdirSync(path.join(__dirname, 'data'));
-}
-if (!KV_REST_API_URL && !fs.existsSync(DATA_FILE)) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify([]));
+// Ensure data directory exists (only if not running on Vercel)
+if (!IS_VERCEL) {
+  if (!fs.existsSync(path.join(__dirname, 'data'))) {
+    fs.mkdirSync(path.join(__dirname, 'data'));
+  }
+  if (!fs.existsSync(DATA_FILE)) {
+    fs.writeFileSync(DATA_FILE, JSON.stringify([]));
+  }
+} else {
+  // On Vercel, if we need a local fallback file in /tmp, write it
+  if (!fs.existsSync(DATA_FILE)) {
+    try {
+      fs.writeFileSync(DATA_FILE, JSON.stringify([]));
+    } catch (err) {
+      console.warn('Could not write fallback to /tmp:', err.message);
+    }
+  }
 }
 
 app.use(express.json());
